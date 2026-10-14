@@ -1,0 +1,372 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Noto Serif', 'Times New Roman', serif;
+    background-color: #1a120c;
+    color: #3d2314;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Ảnh nền cố định: dùng pseudo-element vì background-attachment: fixed
+   bị lỗi/giật trên iOS Safari. Nhớ kiểm tra tên file ảnh. */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: #1a120c url('anhnen.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+
+
+
+/* 2. Container game */
+.game-container {
+    max-width: 1280px;
+    width: 95%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scroll-header {
+    position: relative;
+    max-width: 100%;
+    background: #e3ca96;
+    border: 3px solid #6e4722;
+    border-radius: 6px;
+    padding: 10px clamp(24px, 6vw, 60px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4), inset 0 0 20px rgba(110, 71, 34, 0.3);
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.scroll-header::before,
+.scroll-header::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    bottom: -10px;
+    width: 14px;
+    background: linear-gradient(90deg, #3d2314, #8c5a2b, #3d2314);
+    border-radius: 4px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+.scroll-header::before { left: -7px; }
+.scroll-header::after  { right: -7px; }
+
+.scroll-header h1 {
+    font-family: 'Dancing Script', cursive, serif;
+    font-size: clamp(28px, 6vw, 38px);
+    color: #2b180c;
+    font-weight: bold;
+}
+
+.description-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #2b1a0e;
+    font-size: clamp(13px, 2.4vw, 15px);
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    /* nền mờ giúp chữ đọc được trên ảnh nền tối */
+    background: rgba(237, 222, 192, 0.85);
+}
+
+.cloud-ornament {
+    color: #7a5028;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.main-content {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* 3. Bàn chơi */
+.board-wrapper {
+    flex: 0 1 730px;       /* co lại khi hẹp, tối đa 730px */
+    min-width: 0;
+    background: rgba(36, 23, 15, 0.92);
+    padding: clamp(10px, 3vw, 25px);
+    border: 3px solid #8c6733;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(0,0,0,0.8);
+    position: relative;
+}
+
+.board-wrapper::before {
+    content: '❖';
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    color: #8c6733;
+    font-size: 12px;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(6px, 1.8vw, 18px);
+    width: 100%;
+}
+
+/* Thẻ lật bài */
+.card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    perspective: 1000px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font: inherit;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.card:focus-visible {
+    outline: 3px solid #e8b95e;
+    outline-offset: 3px;
+    border-radius: 8px;
+}
+
+.card .card-back,
+.card .card-front {
+    position: absolute;
+    inset: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 8px;
+    border: 2px solid #b89253;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+
+.card .card-back {
+    transform: rotateY(0deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(110, 71, 34, 0.7);
+    font-size: clamp(16px, 4vw, 28px);
+    background: #d1b275 url('nenthe.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.card .card-back::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgba(138, 97, 43, 0.6);
+    border-radius: 5px;
+}
+
+.card .card-front {
+    transform: rotateY(180deg);
+    background: #f4e6c8;
+    color: #3d2314;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: clamp(11px, 2.2vw, 16px);
+    line-height: 1.3;
+    padding: clamp(3px, 1vw, 10px);
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.card.flipped .card-front,
+.card.matched .card-front { transform: rotateY(0deg); }
+.card.flipped .card-back,
+.card.matched .card-back  { transform: rotateY(-180deg); }
+
+.card.matched .card-front {
+    border-color: #3ba856;
+    box-shadow: 0 0 12px rgba(59, 168, 86, 0.6);
+}
+
+.card .card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+}
+
+/* 4. Sidebar */
+.sidebar-panel {
+    flex: 0 0 280px;
+    background: rgba(237, 222, 192, 0.92);
+    border: 3px double #734c24;
+    border-radius: 10px;
+    padding: 30px 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.info-icon {
+    font-size: 28px;
+    color: #523318;
+}
+
+.info-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-text label {
+    font-size: 13px;
+    color: #63462a;
+}
+
+.info-text strong {
+    font-size: 22px;
+    color: #2b180c;
+    font-weight: 700;
+}
+
+.divider {
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8c6233, transparent);
+}
+
+#restartButton {
+    font-family: 'Noto Serif', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #f7e7c4;
+    background: linear-gradient(180deg, #782a19 0%, #4a150a 100%);
+    border: 2px solid #b88d4d;
+    border-radius: 20px;
+    padding: 10px 30px;
+    min-height: 44px;           /* vùng chạm tối thiểu trên mobile */
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#restartButton:hover {
+    background: linear-gradient(180deg, #9c3722 0%, #631e10 100%);
+    border-color: #ebd08d;
+    color: #ffffff;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+}
+
+#restartButton:focus-visible {
+    outline: 3px solid #e8b95e;
+    outline-offset: 3px;
+}
+
+#gameMessage {
+    font-size: 13px;
+    color: #5c3f24;
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    color: #b89763;
+    background: #140d08;
+    border-top: 1px solid #543a1e;
+    margin-top: auto;
+    font-size: 13px;
+}
+
+/* ===== Responsive ===== */
+
+/* Tablet & nhỏ hơn: sidebar xuống dưới bàn chơi */
+@media (max-width: 1024px) {
+    .main-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .board-wrapper,
+    .sidebar-panel {
+        flex: none;
+        width: 100%;
+        max-width: 560px;
+    }
+    /* Thời gian + điểm nằm cùng một hàng cho gọn */
+    .sidebar-panel {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 20px;
+        gap: 16px;
+    }
+    .info-item { width: auto; }
+    .divider { display: none; }
+    #gameMessage { width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .site-header { justify-content: center; text-align: center; }
+    .site-header nav { justify-content: center; }
+    .description-banner .cloud-ornament { display: none; }
+    .info-icon { font-size: 22px; }
+    .info-text strong { font-size: 18px; }
+    .card .card-back,
+    .card .card-front { border-width: 1px; border-radius: 6px; }
+}
+
+
+/* Điện thoại: 2 cột x 4 hàng, thẻ vuông và to hơn */
+@media (max-width: 600px) {
+    .game-container { width: 100%; padding: 0 10px; }
+    .board-wrapper { padding: 14px; }
+    .game-board {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+    .card { aspect-ratio: 1 / 1; }
+    .card .card-front {
+        font-size: 17px;
+        padding: 10px;
+    }
+    .card .card-back { font-size: 32px; }
+}
+

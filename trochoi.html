@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò chơi lật thẻ | Khám phá Huế</title>
+
+    <link rel="stylesheet" href="trochoi.css">
+    <script src="trochoi.js" defer></script>
+    <link rel="stylesheet" href="menu.css">
+</head>
+
+<body>
+  
+   <header class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="logo">Khám phá Huế</a>
+ 
+            <button class="nav-toggle" type="button" aria-expanded="false"
+                    aria-controls="nav-menu" aria-label="Mở menu">
+                <span></span><span></span><span></span>
+            </button>
+ 
+            <nav id="nav-menu" class="nav-menu" aria-label="Menu chính">
+                <a href="intro.html">Trang chủ</a>
+                <a href="index.html">Bản đồ tương tác</a>
+                <a href="trochoi.html" aria-current="page">Trò chơi</a>
+                <a href="#">Giới thiệu</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="game-container">
+
+        <div class="scroll-header">
+            <h1>Trò chơi lật thẻ</h1>
+        </div>
+
+        <div class="description-banner">
+            <span class="cloud-ornament" aria-hidden="true">༺</span>
+            <span>Hãy tìm và ghép đúng các cặp thẻ: một thẻ tên và một thẻ hình ảnh của cùng một di tích Huế!</span>
+            <span class="cloud-ornament" aria-hidden="true">༻</span>
+        </div>
+
+        <div class="main-content">
+
+            <div class="board-wrapper">
+                <div class="game-board" id="gameBoard"></div>
+            </div>
+
+            <aside class="sidebar-panel">
+                <div class="info-item">
+                    <span class="info-icon" aria-hidden="true">⏳</span>
+                    <div class="info-text">
+                        <label>Thời gian</label>
+                        <strong id="timer">00:00</strong>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-icon" aria-hidden="true">★</span>
+                    <div class="info-text">
+                        <label>Số cặp đã tìm</label>
+                        <strong id="score">0 / 4</strong>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <button id="restartButton" type="button">↻ Chơi lại</button>
+
+                <p id="gameMessage" aria-live="polite">
+                    Hãy bắt đầu hành trình khám phá!
+                </p>
+            </aside>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>Khám phá di sản văn hóa Cố đô Huế</p>
+    </footer>
+</body>
+</html>
